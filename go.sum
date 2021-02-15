@@ -43,6 +43,7 @@ github.com/spf13/pflag v0.0.0-20170417173400-9e4c21054fa1/go.mod h1:DYY7MBk1bdzu
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
+gitlab.com/lmoz25/kheiron-technical-test v0.0.0-20210215203828-9b03fb589800 h1:Ke9Icp6+7fQCJJXla59uJyjRrtVwvKh2e14d0uQ3tIo=
 go.starlark.net v0.0.0-20200821142938-949cc6f4b097 h1:YiRMXXgG+Pg26t1fjq+iAjaauKWMC9cmGFrtOEuwDDg=
 go.starlark.net v0.0.0-20200821142938-949cc6f4b097/go.mod h1:f0znQkUKRrkk36XxWbGjMqQM8wGv/xHBVE2qc3B5oFU=
 go.uber.org/goleak v0.10.1-0.20191111212139-7380c5a9fa84/go.mod h1:8a7PlsEVH3e/a/GLqe5IIrQx6GzcnRmZEufDUTk4A7A=

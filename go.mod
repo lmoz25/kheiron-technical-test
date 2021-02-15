@@ -1,4 +1,4 @@
-module gitlab.com/lmoz25/kheiron-technical-test/m
+module gitlab.com/lmoz25/kheiron-technical-test/
 
 go 1.15
 

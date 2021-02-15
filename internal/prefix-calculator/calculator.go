@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/lmoz25/kheiron-technical-test/m/internal/common"
+	"gitlab.com/lmoz25/kheiron-technical-test/internal/common"
 )
 
 type Calculator struct {

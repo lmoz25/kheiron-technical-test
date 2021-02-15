@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	calculator "gitlab.com/lmoz25/kheiron-technical-test/m/internal/prefix-calculator"
+	calculator "gitlab.com/lmoz25/kheiron-technical-test/internal/prefix-calculator"
 )
 
 func TestPrefixCalculator(t *testing.T) {
