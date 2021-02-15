@@ -5,3 +5,10 @@ build-prefix:
 .PHONY: test
 test:
 	@go test -v ./tests/...
+
+.PHONY: all
+all: build-prefix
+
+.PHONY: clean
+clean:
+	@rm -rf bin/
