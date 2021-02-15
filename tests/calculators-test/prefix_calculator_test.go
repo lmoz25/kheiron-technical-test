@@ -12,10 +12,15 @@ func TestPrefixCalculator(t *testing.T) {
 		testName := fmt.Sprintf("Add Question: %s", tc.TestDescription)
 		var calc calculator.Calculator
 		t.Run(testName, func(t *testing.T) {
-			retVal, err := calc.ParseInput(tc.Sum)
+			err := calc.ParseInput(tc.Sum)
 			if err != nil {
 				t.Error(err)
 			}
+			retVal, err := calc.Result()
+			if err != nil {
+				t.Error(err)
+			}
+
 			if retVal != tc.ExpectedResult {
 				t.Errorf("Incorrent result %f from sum %s", retVal, tc.Sum)
 			}
@@ -47,5 +52,15 @@ var TestData = []struct {
 		"Divide two numbers",
 		"/ 3 4",
 		0.75,
+	},
+	{
+		"Combine two operations",
+		"+ 1 * 2 3",
+		7,
+	},
+	{
+		"Combine more operations",
+		"- / 10 + 1 1 * 1 2",
+		3,
 	},
 }
