@@ -7,10 +7,10 @@ import (
 	calculator "gitlab.com/lmoz25/kheiron-technical-test/internal/prefix-calculator"
 )
 
-func TestPrefixCalculator(t *testing.T) {
+func TestPrefixPrefixCalculator(t *testing.T) {
 	for _, tc := range TestData {
 		testName := fmt.Sprintf("Add Question: %s", tc.TestDescription)
-		var calc calculator.Calculator
+		var calc calculator.PrefixCalculator
 		t.Run(testName, func(t *testing.T) {
 			err := calc.ParseInput(tc.Sum)
 			if err != nil {
@@ -63,4 +63,5 @@ var TestData = []struct {
 		"- / 10 + 1 1 * 1 2",
 		3,
 	},
+	// TODO: failing test cases
 }

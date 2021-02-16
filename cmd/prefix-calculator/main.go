@@ -10,7 +10,7 @@ import (
 
 func main() {
 	for {
-		var calc calculator.Calculator
+		var calc calculator.PrefixCalculator
 		// Println function is used to
 		// display output in the next line
 		fmt.Println("Enter sum in prefix notation: ")
