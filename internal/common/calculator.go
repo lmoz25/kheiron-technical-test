@@ -32,6 +32,6 @@ func PerformOperation(num1, num2 float32, operation string) (float32, error) {
 	case "/":
 		return num1 / num2, nil
 	default:
-		return 0, fmt.Errorf("Operation %r not supported", operation)
+		return 0, fmt.Errorf("Operation %s not supported", operation)
 	}
 }

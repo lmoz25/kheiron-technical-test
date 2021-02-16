@@ -1,6 +1,8 @@
 package calculator
 
 import (
+	"errors"
+	"fmt"
 	"strings"
 
 	"gitlab.com/lmoz25/kheiron-technical-test/internal/common"
@@ -14,8 +16,7 @@ type InfixCalculator struct {
 // TODO: consider invalid input?
 func (calculator *InfixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
-	for i := len(sum) - 1; i >= 0; i-- {
-		section := sum[i]
+	for _, section := range sum {
 		if common.IsOperation(section) {
 			calculator.operationStack.AddOperation(section)
 		} else if section == "(" {
@@ -34,6 +35,41 @@ func (calculator *InfixCalculator) ParseInput(input string) error {
 	return nil
 }
 
-func (calculator *InfixCalculator) operate() (float32, error) {
+// Result outputs the result of the calculator's calculation
+func (calculator *InfixCalculator) Result() (float32, error) {
+	result, err := calculator.numberStack.GetNumber()
+	if err != nil {
+		return 0, err
+	}
 
+	return result, nil
+}
+
+func (calculator *InfixCalculator) operate() (float32, error) {
+	stackLength := calculator.numberStack.Len()
+	// Need at least 2 numbers in the stack to operate on them
+	if stackLength < 2 {
+		return 0, fmt.Errorf("Cannot perform operation with only %d numbers", stackLength)
+	}
+
+	stackLength = calculator.operationStack.Len()
+	// Need at least one operation on the stack to operate
+	if stackLength < 1 {
+		return 0, errors.New("Cannot perform operation with no operations on the stack")
+	}
+
+	// For division and subtraction, last on the stack will be second in the operation, and next last will be first
+	num2, err := calculator.numberStack.GetNumber()
+	if err != nil {
+		return 0, err
+	}
+
+	num1, err := calculator.numberStack.GetNumber()
+	if err != nil {
+		return 0, err
+	}
+
+	operation, err := calculator.operationStack.GetOperation()
+
+	return common.PerformOperation(num1, num2, operation)
 }

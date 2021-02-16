@@ -40,6 +40,7 @@ func (calculator *PrefixCalculator) Result() (float32, error) {
 
 func (calculator *PrefixCalculator) operate(operation string) (float32, error) {
 	stackLength := calculator.stack.Len()
+	// Need at least 2 numbers in the stack to operate on them
 	if stackLength < 2 {
 		return 0, fmt.Errorf("Cannot perform operation with only %d numbers", stackLength)
 	}

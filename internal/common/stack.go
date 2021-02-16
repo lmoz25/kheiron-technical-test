@@ -63,14 +63,27 @@ func (stack *Stack) GetNumber() (float32, error) {
 		return 0, err
 	}
 
-	retval, ok := numInterface.(float32)
+	num, ok := numInterface.(float32)
 	if !ok {
 		return 0, errors.New("Tried to get float from stack, but top element not float")
 	}
-	return retval, nil
+	return num, nil
 }
 
 // AddOperation is a wrapper for adding an arithmetic operation to the stack
 func (stack *Stack) AddOperation(operation string) {
 	stack.push(operation)
+}
+
+func (stack *Stack) GetOperation() (string, error) {
+	opInterface, err := stack.pop()
+	if err != nil {
+		return "", err
+	}
+
+	operation, ok := opInterface.(string)
+	if !ok {
+		return "", errors.New("Tried to get string from stack, but top element not string")
+	}
+	return operation, nil
 }
