@@ -38,6 +38,10 @@ func (calculator *PrefixCalculator) Result() (float32, error) {
 	return result, nil
 }
 
+func (calculator *PrefixCalculator) ClearData() {
+	calculator.stack = common.Stack{}
+}
+
 func (calculator *PrefixCalculator) operate(operation string) (float32, error) {
 	stackLength := calculator.stack.Len()
 	// Need at least 2 numbers in the stack to operate on them

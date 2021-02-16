@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
+	var calc calculator.InfixCalculator
 	for {
-		var calc calculator.InfixCalculator
 		// Println function is used to
 		// display output in the next line
 		fmt.Println("Enter sum in prefix notation: ")
@@ -32,5 +32,7 @@ func main() {
 		}
 
 		fmt.Printf("Result: %.1f\n", result)
+		fmt.Println("*************************************")
+		calc.ClearData()
 	}
 }

@@ -1,3 +1,6 @@
+.PHONY: all
+all: build-prefix build-infix ## Build all targets (run `make` on its own)
+
 .PHONY: build-prefix
 build-prefix: ## Build only the prefix calculator
 	@go build -o bin/prefix-calculator cmd/prefix-calculator/main.go
@@ -5,10 +8,6 @@ build-prefix: ## Build only the prefix calculator
 .PHONY: build-infix
 build-infix: ## Build only the infix calculator
 	@go build -o bin/infix-calculator cmd/infix-calculator/main.go
-
-.PHONY: all
-all: ## Build all targets (run `make` on its own)
-	build-prefix build-infix
 
 .PHONY: test
 test: ## Run integration tests

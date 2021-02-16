@@ -45,6 +45,11 @@ func (calculator *InfixCalculator) Result() (float32, error) {
 	return result, nil
 }
 
+func (calculator *InfixCalculator) ClearData() {
+	calculator.numberStack = common.Stack{}
+	calculator.operationStack = common.Stack{}
+}
+
 func (calculator *InfixCalculator) operate() (float32, error) {
 	stackLength := calculator.numberStack.Len()
 	// Need at least 2 numbers in the stack to operate on them
