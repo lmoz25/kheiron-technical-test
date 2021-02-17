@@ -9,6 +9,10 @@ build-prefix: ## Build only the prefix calculator
 build-infix: ## Build only the infix calculator
 	@go build -o bin/infix-calculator cmd/infix-calculator/main.go
 
+.PHONY: build-api
+build-api: ## Build the REST API
+	@go build -o bin/rest-api cmd/rest-api/main.go
+
 .PHONY: test
 test: ## Run integration tests
 	@go test -v ./tests/...
