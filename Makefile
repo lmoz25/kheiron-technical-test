@@ -3,15 +3,15 @@ all: build-prefix build-infix build-api ## Build all targets (run `make` on its 
 
 .PHONY: build-prefix
 build-prefix: ## Build only the prefix calculator
-	@go build -o bin/prefix-calculator cmd/prefix-calculator/main.go
+	@go build -o bin/prefix-calculator.exe cmd/prefix-calculator/main.go
 
 .PHONY: build-infix
 build-infix: ## Build only the infix calculator
-	@go build -o bin/infix-calculator cmd/infix-calculator/main.go
+	@go build -o bin/infix-calculator.exe cmd/infix-calculator/main.go
 
 .PHONY: build-api
 build-api: ## Build the REST API
-	@go build -o bin/rest-api cmd/rest-api/main.go
+	@go build -o bin/rest-api.exe cmd/rest-api/main.go
 
 .PHONY: test
 test: ## Run integration tests
