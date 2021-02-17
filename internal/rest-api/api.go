@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -41,11 +40,14 @@ func UsePrefixCalculator(w http.ResponseWriter, r *http.Request) {
 
 	err := calc.ParseInput(requestSum.Sum)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
 	result, err := calc.Result()
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
 
@@ -65,11 +67,14 @@ func UseInfixCalculator(w http.ResponseWriter, r *http.Request) {
 
 	err := calc.ParseInput(requestSum.Sum)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
 	result, err := calc.Result()
 	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
 		return
 	}
 

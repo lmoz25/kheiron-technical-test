@@ -12,16 +12,7 @@ import (
 	api "gitlab.com/lmoz25/kheiron-technical-test/internal/rest-api"
 )
 
-// type APITests struct {
-// 	httpExpect *httpexpect.Expect
-// }
-
-// func (s *APITests) Setup(t *testing.T) {
-// 	router := api.SetupRouter()
-// 	s.httpExpect = httpexpect.
-// }
-
-func testMain(t *testing.T, request *api.SumRequest, expectedResponse *api.SumResponse, endpoint string, calculator http.HandlerFunc) {
+func testMain(t *testing.T, request *api.SumRequest, expectedResponseCode int, expectedResponse *api.SumResponse, endpoint string, calculator http.HandlerFunc) {
 	requestBody, err := json.Marshal(request)
 	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(requestBody))
 	if err != nil {
@@ -37,9 +28,9 @@ func testMain(t *testing.T, request *api.SumRequest, expectedResponse *api.SumRe
 	handler.ServeHTTP(rr, req)
 
 	// Check the status code is what we expect.
-	if status := rr.Code; status != http.StatusOK {
+	if status := rr.Code; status != expectedResponseCode {
 		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
+			status, expectedResponseCode)
 	}
 
 	var response = api.SumResponse{}
@@ -56,7 +47,7 @@ func TestInfixAPI(t *testing.T) {
 	for _, tc := range InfixAPITestData {
 		testName := fmt.Sprintf("Infix Calculator API: %s", tc.TestDescription)
 		t.Run(testName, func(t *testing.T) {
-			testMain(t, &tc.Sum, &tc.ExpectedResult, "/infix", api.UseInfixCalculator)
+			testMain(t, &tc.Sum, tc.ExpectedResponseCode, &tc.ExpectedResult, "/infix", api.UseInfixCalculator)
 		})
 	}
 }
@@ -65,21 +56,23 @@ func TestPrefixAPI(t *testing.T) {
 	for _, tc := range PrefixAPITestData {
 		testName := fmt.Sprintf("Prefix Calculator API: %s", tc.TestDescription)
 		t.Run(testName, func(t *testing.T) {
-			testMain(t, &tc.Sum, &tc.ExpectedResult, "/prefix", api.UsePrefixCalculator)
+			testMain(t, &tc.Sum, tc.ExpectedResponseCode, &tc.ExpectedResult, "/prefix", api.UsePrefixCalculator)
 		})
 	}
 }
 
 var InfixAPITestData = []struct {
-	TestDescription string
-	Sum             api.SumRequest
-	ExpectedResult  api.SumResponse
+	TestDescription      string
+	Sum                  api.SumRequest
+	ExpectedResponseCode int
+	ExpectedResult       api.SumResponse
 }{
 	{
 		"Add two numbers",
 		api.SumRequest{
 			Sum: "( 1 + 2 )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 3,
 		},
@@ -89,6 +82,7 @@ var InfixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "( 1 - 2 )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: -1,
 		},
@@ -98,6 +92,7 @@ var InfixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "( 3 *  4 )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 12,
 		},
@@ -107,6 +102,7 @@ var InfixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "( 3 / 4 )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 0.75,
 		},
@@ -116,6 +112,7 @@ var InfixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "( 1 + ( 2 * 3 ) )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 7,
 		},
@@ -125,6 +122,7 @@ var InfixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "( ( 1 * 2 ) + 3 )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 5,
 		},
@@ -134,22 +132,35 @@ var InfixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "( ( ( 1 + 1 ) / 10 ) - ( 1 * 2 ) )",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: -1.8,
+		},
+	},
+	{
+		"Invalid sum",
+		api.SumRequest{
+			Sum: "+ 9 8",
+		},
+		http.StatusBadRequest,
+		api.SumResponse{
+			Answer: 0,
 		},
 	},
 }
 
 var PrefixAPITestData = []struct {
-	TestDescription string
-	Sum             api.SumRequest
-	ExpectedResult  api.SumResponse
+	TestDescription      string
+	Sum                  api.SumRequest
+	ExpectedResponseCode int
+	ExpectedResult       api.SumResponse
 }{
 	{
 		"Add two numbers",
 		api.SumRequest{
 			Sum: "+ 3 4",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 7,
 		},
@@ -159,6 +170,7 @@ var PrefixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "- 3 4",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: -1,
 		},
@@ -168,6 +180,7 @@ var PrefixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "* 3 4",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 12,
 		},
@@ -177,6 +190,7 @@ var PrefixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "/ 3 4",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 0.75,
 		},
@@ -186,6 +200,7 @@ var PrefixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "+ 1 * 2 3",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 7,
 		},
@@ -195,8 +210,19 @@ var PrefixAPITestData = []struct {
 		api.SumRequest{
 			Sum: "- / 10 + 1 1 * 1 2",
 		},
+		http.StatusOK,
 		api.SumResponse{
 			Answer: 3,
+		},
+	},
+	{
+		"Invalid sum",
+		api.SumRequest{
+			Sum: "( 7 * 2 )",
+		},
+		http.StatusBadRequest,
+		api.SumResponse{
+			Answer: 0,
 		},
 	},
 }

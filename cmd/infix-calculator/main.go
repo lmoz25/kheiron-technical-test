@@ -13,7 +13,7 @@ func main() {
 	for {
 		// Println function is used to
 		// display output in the next line
-		fmt.Println("Enter sum in prefix notation: ")
+		fmt.Println("Enter sum in infix notation: ")
 
 		in := bufio.NewReader(os.Stdin)
 		sum, err := in.ReadString('\n')

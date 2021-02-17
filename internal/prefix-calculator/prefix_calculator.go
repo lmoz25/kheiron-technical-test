@@ -22,7 +22,10 @@ func (calculator *PrefixCalculator) ParseInput(input string) error {
 			}
 			calculator.stack.AddNumber(result)
 		} else {
-			calculator.stack.AddNumberString(section)
+			err := calculator.stack.AddNumberString(section)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil

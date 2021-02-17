@@ -1,5 +1,5 @@
 .PHONY: all
-all: build-prefix build-infix ## Build all targets (run `make` on its own)
+all: build-prefix build-infix build-api ## Build all targets (run `make` on its own)
 
 .PHONY: build-prefix
 build-prefix: ## Build only the prefix calculator

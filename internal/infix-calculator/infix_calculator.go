@@ -13,9 +13,11 @@ type InfixCalculator struct {
 	operationStack common.Stack
 }
 
-// TODO: consider invalid input?
 func (calculator *InfixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
+	if sum[0] != "(" {
+		return errors.New("Sum not in infix notation")
+	}
 	for _, section := range sum {
 		if common.IsOperation(section) {
 			calculator.operationStack.AddOperation(section)
@@ -29,7 +31,10 @@ func (calculator *InfixCalculator) ParseInput(input string) error {
 			}
 			calculator.numberStack.AddNumber(result)
 		} else {
-			calculator.numberStack.AddNumberString(section)
+			err := calculator.numberStack.AddNumberString(section)
+			if err != nil {
+				return err
+			}
 		}
 	}
 	return nil
