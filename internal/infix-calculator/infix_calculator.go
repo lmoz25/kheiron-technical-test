@@ -19,10 +19,12 @@ func (calculator *InfixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
 	// Allocate more than enough space on both stacks ahead of time.
 	// For sums more complicated (i.e with more operations) than ( a + b ), when we add new symbols (brackets/numbers
-	// operators), at most 2/5 of the added symbols will be numbers and at most a quarter will be an operator.
-	// So we can safely allocate 2/5 of length of the input string as stack size to numbers, and 1/4 to operators.
+	// operators), at most 1/3 of the added symbols will be numbers and at most a third will be an operator,
+	// e.g when we go from ( a + b ) to ( c + ( a + b ) + e ).
+	// So we can safely allocate 2/5 of length of the input string as stack size to numbers, and 1/3 to operators.
+	// This is definitely a generous upper bound.
 	numberStackLen := int(2.0/5.0*float32(len(sum))) + 1
-	operatorStackLen := int(1.0/4.0*float32(len(sum))) + 1
+	operatorStackLen := int(1.0/3.0*float32(len(sum))) + 1
 	calculator.operationStack.Contents = make([]interface{}, operatorStackLen)
 	calculator.numberStack.Contents = make([]interface{}, numberStackLen)
 	if sum[0] != "(" {
