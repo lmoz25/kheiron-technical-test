@@ -14,6 +14,11 @@ Built on Ubuntu 20, tested on Ubuntu 20 and Windows 10. Should work the same on 
 
 ### Running:
 - After building, the binaries live in the `bin` directory. Run them as you would any binary executable.
+- #### API usage example:
+```bash
+liam@liam-UX330UAK:~/git_projects/kheiron-technical-test(master)$ curl --header "Content-Type: application/json" --request POST --data '{"sum": "( ( ( 1 + 1 ) / 10 ) - ( 1 * 2 ) )"}' http://localhost:8000/infix
+{"answer":-1.8}
+```
 
 ### Testing:
 - Run by either using `make test` or `go test -v ./tests/...` in the top-level of the project.
