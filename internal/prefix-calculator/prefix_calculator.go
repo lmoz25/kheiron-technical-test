@@ -7,10 +7,12 @@ import (
 	"gitlab.com/lmoz25/kheiron-technical-test/internal/common"
 )
 
+// PrefixCalculator is the struct representing a calculator that operates on prefix expressions
 type PrefixCalculator struct {
 	stack common.Stack
 }
 
+// ParseInput is the function through which an infix calculator parses infix expressions
 func (calculator *PrefixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
 	for i := len(sum) - 1; i >= 0; i-- {
@@ -41,6 +43,7 @@ func (calculator *PrefixCalculator) Result() (float32, error) {
 	return result, nil
 }
 
+// ClearData wipes the stack for the calculator
 func (calculator *PrefixCalculator) ClearData() {
 	calculator.stack = common.Stack{}
 }

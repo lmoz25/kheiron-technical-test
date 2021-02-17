@@ -8,11 +8,13 @@ import (
 	"gitlab.com/lmoz25/kheiron-technical-test/internal/common"
 )
 
+// InfixCalculator is the struct representing a calculator that operates on infix expressions
 type InfixCalculator struct {
 	numberStack    common.Stack
 	operationStack common.Stack
 }
 
+// ParseInput is the function through which an infix calculator parses infix expressions
 func (calculator *InfixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
 	if sum[0] != "(" {
@@ -50,6 +52,7 @@ func (calculator *InfixCalculator) Result() (float32, error) {
 	return result, nil
 }
 
+// ClearData wipes the stacks for the calculator
 func (calculator *InfixCalculator) ClearData() {
 	calculator.numberStack = common.Stack{}
 	calculator.operationStack = common.Stack{}

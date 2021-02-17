@@ -16,11 +16,13 @@ var Operations = map[string]struct{}{
 	"/": {},
 }
 
+// IsOperation checks that the input string is a valid arithmetic operator
 func IsOperation(candidate string) bool {
 	_, isOperation := Operations[candidate]
 	return isOperation
 }
 
+// PerformOperation performs the given operation on the given numbers
 func PerformOperation(num1, num2 float32, operation string) (float32, error) {
 	switch operation {
 	case "+":

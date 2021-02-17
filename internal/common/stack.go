@@ -2,6 +2,7 @@ package common
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 )
 
@@ -75,6 +76,7 @@ func (stack *Stack) AddOperation(operation string) {
 	stack.push(operation)
 }
 
+// GetOperation is a convenience function for safely getting an operation from the stack
 func (stack *Stack) GetOperation() (string, error) {
 	opInterface, err := stack.pop()
 	if err != nil {
@@ -84,6 +86,9 @@ func (stack *Stack) GetOperation() (string, error) {
 	operation, ok := opInterface.(string)
 	if !ok {
 		return "", errors.New("Tried to get string from stack, but top element not string")
+	}
+	if !IsOperation(operation) {
+		return "", fmt.Errorf("String at top of stack %s is not a valid operation", operation)
 	}
 	return operation, nil
 }
