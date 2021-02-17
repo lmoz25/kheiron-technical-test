@@ -15,6 +15,12 @@ type PrefixCalculator struct {
 // ParseInput is the function through which an infix calculator parses infix expressions
 func (calculator *PrefixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
+	// Allocate more than enough space on the stack ahead of time.
+	// The highest ratio of numbers to operators is 2:1, i.e for the expression `+ a b` or similar,
+	// since this is the sum that never involves calculations involving numbers put on the stack after previous
+	// calculations. So allocating more than 2/3 of the length of the string is a decent upper bound for size.
+	stackLen := int(2.0/3.0*float32(len(sum))) + 1
+	calculator.stack.Contents = make([]interface{}, stackLen)
 	for i := len(sum) - 1; i >= 0; i-- {
 		section := sum[i]
 		if common.IsOperation(section) {

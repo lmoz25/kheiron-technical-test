@@ -6,40 +6,36 @@ import (
 	"strconv"
 )
 
-type item struct {
-	value interface{}
-	next  *item
-}
-
 // Stack is an implementation of a stack
 type Stack struct {
-	top  *item
-	size int
+	Contents []interface{}
+	Pointer  int
 }
 
 // Len gets the length of the stack
 func (stack *Stack) Len() int {
-	return stack.size
+	return (stack.Pointer + 1)
 }
 
 // Push pushes a value to the stack
-func (stack *Stack) push(value interface{}) {
-	stack.top = &item{
-		value: value,
-		next:  stack.top,
+func (stack *Stack) push(value interface{}) error {
+	if stack.Len() == len(stack.Contents) {
+		return errors.New("stack full")
 	}
-	stack.size++
+	stack.Pointer++
+	stack.Contents[stack.Pointer] = value
+	return nil
 }
 
 // Pop takes the value from the top of the stack
 func (stack *Stack) pop() (interface{}, error) {
 	if stack.Len() > 0 {
-		value := stack.top.value
-		stack.top = stack.top.next
-		stack.size--
-		return value, nil
+		retVal := stack.Contents[stack.Pointer]
+		stack.Contents[stack.Pointer] = nil
+		stack.Pointer--
+		return retVal, nil
 	}
-	return 0, errors.New("Stack empty")
+	return 0, errors.New("stack empty")
 }
 
 // AddNumberString is a convenience function for adding a string containing a number to the stack

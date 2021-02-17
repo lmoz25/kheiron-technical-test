@@ -17,6 +17,14 @@ type InfixCalculator struct {
 // ParseInput is the function through which an infix calculator parses infix expressions
 func (calculator *InfixCalculator) ParseInput(input string) error {
 	sum := strings.Fields(input)
+	// Allocate more than enough space on both stacks ahead of time.
+	// For sums more complicated (i.e with more operations) than ( a + b ), when we add new symbols (brackets/numbers
+	// operators), at most 2/5 of the added symbols will be numbers and at most a quarter will be an operator.
+	// So we can safely allocate 2/5 of length of the input string as stack size to numbers, and 1/4 to operators.
+	numberStackLen := int(2.0/5.0*float32(len(sum))) + 1
+	operatorStackLen := int(1.0/4.0*float32(len(sum))) + 1
+	calculator.operationStack.Contents = make([]interface{}, operatorStackLen)
+	calculator.numberStack.Contents = make([]interface{}, numberStackLen)
 	if sum[0] != "(" {
 		return errors.New("Sum not in infix notation")
 	}
